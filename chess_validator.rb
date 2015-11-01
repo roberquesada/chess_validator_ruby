@@ -10,32 +10,14 @@ class Validator
   end
 
   def new_game
-    #Hacer un for
-      @chess_board.add_piece(:bR, 0, 0)
-      @chess_board.add_piece(:bN, 1, 0)
-      @chess_board.add_piece(:bB, 2, 0)
-      @chess_board.add_piece(:bQ, 3, 0)
-      @chess_board.add_piece(:bK, 4, 0)
-      @chess_board.add_piece(:bB, 5, 0)
-      @chess_board.add_piece(:bN, 6, 0)
-      @chess_board.add_piece(:bR, 7, 0)
 
-      for pawn_position in 0..7
-        @chess_board.add_piece(:bP, pawn_position , 1)
-      end
+    position = ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R']
 
-      @chess_board.add_piece(:wR, 0, 7)
-      @chess_board.add_piece(:wN, 1, 7)
-      @chess_board.add_piece(:wB, 2, 7)
-      @chess_board.add_piece(:wQ, 3, 7)
-      @chess_board.add_piece(:wK, 4, 7)
-      @chess_board.add_piece(:wB, 5, 7)
-      @chess_board.add_piece(:wN, 6, 7)
-      @chess_board.add_piece(:wR, 7, 7)
+    8.times { |i| @chess_board.add_piece(('b' + position[i]).to_sym, [0, i]) }
+    8.times { |i| @chess_board.add_piece(:bP, [1, i]) }
+    8.times { |i| @chess_board.add_piece(('w' + position[i]).to_sym, [7, i]) }
+    8.times { |i| @chess_board.add_piece(:wP, [6, i]) }
 
-      for pawn_position in 0..7
-        @chess_board.add_piece(:wP, pawn_position , 6)
-      end
   end
 
   def show_board
