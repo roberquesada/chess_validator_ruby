@@ -29,7 +29,7 @@ class Validator
         if piece == nil
           result += " -- "
         else
-          result += " #{piece.name} "
+          result += " #{piece} "
         end
       end
 
@@ -48,8 +48,9 @@ class ChessBoard
     @board = Array.new(8) {Array.new(8)}
   end
 
-  def add_piece hash_key, position_horizontal, position_vertical
-    @board[position_vertical][position_horizontal] = @pieces[hash_key][0].new(@pieces[hash_key][1], @pieces[hash_key][2])
+  def add_piece hash_key, position
+    @board[position[0]][position[1]] = @pieces[hash_key][:name].to_sym
+  end
   end
 
 end
@@ -98,8 +99,10 @@ end
 # bN or wN
 
 class Bishop < Piece
-  def initialize color, name
-    super(color, name)
+  def initialize color, name, position
+    super(color, name, position)
+  end
+
   end
 end
 
@@ -107,8 +110,8 @@ end
 # bR or wR
 
 class Rook < Piece
-  def initialize color, name
-    super(color, name)
+  def initialize color, name, position
+    super(color, name, position)
   end
 end
 
@@ -116,8 +119,8 @@ end
 # bQ or wQ
 
 class Queen < Piece
-  def initialize color, name
-    super(color, name)
+  def initialize color, name, position
+    super(color, name, position)
   end
 end
 
@@ -125,27 +128,27 @@ end
 # bK or wK
 
 class King < Piece
-  def initialize color, name
-    super(color, name)
+  def initialize color, name, position
+    super(color, name, position)
   end
 end
 
 
 pieces = {
-  bR: [Rook, 'black', 'bR'],
-  bN: [Bishop, 'black', 'bN'],
-  bB: [Knight, 'black', 'bB'],
-  bQ: [Queen, 'black', 'bQ'],
-  bK: [Queen, 'black', 'bK'],
-  bP: [Pawn, 'black', 'bP'],
-  wR: [Rook, 'white', 'wR'],
-  wN: [Bishop, 'white', 'wN'],
-  wB: [Knight, 'white', 'wB'],
-  wQ: [Queen, 'white', 'wQ'],
-  wK: [Queen, 'white', 'wK'],
-  wP: [Pawn, 'white', 'wP']
+  bR: {class_name: Rook, color: 'black', name: 'bR'},
+  bN: {class_name: Bishop, color: 'black', name: 'bN'},
+  bB: {class_name: Knight, color: 'black', name: 'bB'},
+  bQ: {class_name: Queen, color: 'black', name: 'bQ'},
+  bK: {class_name: King, color: 'black', name: 'bK'},
+  bP: {class_name: Pawn, color: 'black', name: 'bP'},
+  wR: {class_name: Rook, color: 'white', name: 'wR'},
+  wN: {class_name: Bishop, color: 'white', name: 'wN'},
+  wB: {class_name: Knight, color: 'white', name: 'wB'},
+  wQ: {class_name: Queen, color: 'white', name: 'wQ'},
+  wK: {class_name: King, color: 'white', name: 'wK'},
+  wP: {class_name: Pawn, color: 'white', name: 'wP'},
 }
 
 validator = Validator.new(ChessBoard.new(pieces))
 validator.new_game
-validator.show_board
+validator.show_boardvalidator.show_board
