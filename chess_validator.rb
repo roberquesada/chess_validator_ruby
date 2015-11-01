@@ -37,6 +37,15 @@ class Validator
 
     end
   end
+
+  def make_move init_position, end_position
+    if @chess_board.move_piece(init_position, end_position)
+      puts "TRUE"
+    else
+      puts "FALSE"
+    end
+  end
+
 end
 
 class ChessBoard
@@ -51,6 +60,16 @@ class ChessBoard
   def add_piece hash_key, position
     @board[position[0]][position[1]] = @pieces[hash_key][:name].to_sym
   end
+
+  def move_piece init_pos, end_pos
+    piece = @pieces[@board[init_pos[0]][init_pos[1]]]
+    new_piece = piece[:class_name].new(piece[:color], piece[:name], [init_pos[0],init_pos[1]])
+    current_pos = [init_pos[0],init_pos[1]]
+    end_pos_piece = [end_pos[0],end_pos[1]]
+    new_piece.move_piece([end_pos[0],end_pos[1]])
+    new_pos_piece = new_piece.position
+    end_pos_piece == new_pos_piece && @board[new_pos_piece[0]][new_pos_piece[1]] == nil
+    
   end
 
 end
@@ -58,11 +77,13 @@ end
 
 class Piece
 
-  attr_reader :name
+  include Movements
+  attr_reader :position
 
-  def initialize color, name
+  def initialize color, name, position
     @color = color.downcase
     @name = name
+    @position = position
   end
   
 end
@@ -71,27 +92,40 @@ end
 # bP or wP
 
 class Pawn < Piece
-  def initialize color, name
-    super(color, name)
+  def initialize color, name, position
+    super(color, name, position)
   end
 
-  def move
-    # Si la posicion de la ficha es mayor de 2 posiciones sobre su posición inicial.
-    # No puede hacer un movimiento de 2 posiciones.
-    if (@color == 'black')
-      #Mover board[0] + 1
-    elsif (@color == 'white')
-      #Mover board[0] - 1
+  def move_piece position
+
+    pos_dif = (@position[0] - position[0]).abs
+
+    if pos_dif <= 2
+      if (@color == 'black')
+        if @position[0] >= 1
+          @position[0] += pos_dif
+        else
+          @position[0] += 1
+        end
+      elsif (@color == 'white')
+
+        if @position[0] >= 6
+          @position[0] -= pos_dif
+        else
+          @position[0] -= 1
+        end
+      end
     end
   end
+
 end
 
 # Caballo
 # bB or wB
 
 class Knight < Piece
-  def initialize color, name
-    super(color, name)
+  def initialize color, name, position
+    super(color, name, position)
   end
 end
 
@@ -151,4 +185,7 @@ pieces = {
 
 validator = Validator.new(ChessBoard.new(pieces))
 validator.new_game
-validator.show_boardvalidator.show_board
+validator.show_board
+validator.make_move([0,0], [1,4])
+
+#Los valores se asignan de manera vertical y horizontal
