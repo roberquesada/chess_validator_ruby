@@ -3,7 +3,7 @@
 
 
 
-class Game
+class Validator
 
   def initialize chess_board
     @chess_board = chess_board
@@ -164,6 +164,6 @@ pieces = {
   wP: [Pawn, 'white', 'wP']
 }
 
-game = Game.new(ChessBoard.new(pieces))
-game.new_game
-game.show_board
+validator = Validator.new(ChessBoard.new(pieces))
+validator.new_game
+validator.show_board
