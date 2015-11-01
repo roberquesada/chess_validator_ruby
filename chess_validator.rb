@@ -1,7 +1,29 @@
 # Notas generales para revisar
 # Los objetos no se tienen que instanciar, solo tiene que haber una referencia a ellos
+# Los objetos tienen que tener referencias!!!
 
 
+module Movements
+
+  def move_horizontal init_pos, end_pos
+    if init_pos[0] == end_pos[0]
+      init_pos[1] = end_pos[1]
+      init_pos
+    end
+  end
+
+  def move_vertical init_pos, end_pos
+    if init_pos[1] == end_pos[1]
+      init_pos[0] = end_pos[0]
+      init_pos
+    end
+  end
+
+  def move_diagonal
+
+  end
+
+end
 
 class Validator
 
@@ -147,6 +169,11 @@ class Rook < Piece
   def initialize color, name, position
     super(color, name, position)
   end
+
+  def move_piece end_pos
+    move_horizontal(@position, end_pos) || move_vertical(@position, end_pos)
+  end
+
 end
 
 # Reina
